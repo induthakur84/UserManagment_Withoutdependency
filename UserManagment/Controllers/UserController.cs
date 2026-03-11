@@ -7,9 +7,6 @@ namespace UserManagment.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-
-
-
         //private readonly IUserService _service;
 
         // here our code 
@@ -50,14 +47,7 @@ namespace UserManagment.Controllers
         //not found
         // bad request
         // return ok 200
-
-
-
-
-
         // this method is fetch based on the id
-
-
 
         //
 
@@ -90,5 +80,40 @@ namespace UserManagment.Controllers
         }
 
 
+        //PUT: api/User/40/Update
+        [HttpPut("{id}/Update")]
+        public IActionResult Update(int id, User user)
+        {
+            var exitinguser = _context.Users.Find(id);
+            if (exitinguser != null)
+            {
+                return NotFound();
+            }
+            exitinguser.Name = user.Name;
+            exitinguser.Email = user.Email;
+            _context.SaveChanges();
+            return Ok(exitinguser);
+
+        }
+
+
+
+
+        //Delete: api/User/78/Delete
+        [HttpDelete("{id}/Delete")]
+        public IActionResult Delete(int id)
+        {
+            {
+                var user = _context.Users.Find(id);
+                if (user == null)
+                {
+                    return NotFound();
+
+                }
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+                return Ok("this user is deleted");
+            }
+        }
     }
 }
